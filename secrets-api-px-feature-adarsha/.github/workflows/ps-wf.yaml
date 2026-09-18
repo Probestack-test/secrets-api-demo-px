@@ -1,0 +1,28 @@
+name: Apigee Platform CI
+
+on:
+  push:
+    branches:
+      - feature-adarsha
+
+  pull_request:
+    branches:
+      - release
+
+jobs:
+  deploy:
+    uses: ForgeCrux/pipeline-template/.github/workflows/apigee-v1.yaml@main
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      apigee_org: gen-ai-poc-onboarding
+      apigee_env: dev
+      deploy_proxy: secrets-api
+      resourcetype: apis
+      branch_name: ${{ github.ref_name }}
+      cicd_config_id: 6a5c4e4f19924f68338400de
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
