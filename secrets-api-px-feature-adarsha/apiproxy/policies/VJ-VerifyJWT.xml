@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  VerifyJWT – Verify Bearer JWT
+  Validates the JWT in the Authorization header:
+    - Signature verified against the RSA public key stored in KVM.
+    - Standard claims (exp, nbf, iat) enforced automatically.
+    - Issuer claim validated if configured.
+  The verified claims are available as variables:
+    jwt.VJ-VerifyJWT.decoded.claim.sub
+    jwt.VJ-VerifyJWT.decoded.claim.email  etc.
+-->
+<VerifyJWT async="false" continueOnError="false" enabled="true"
+           name="VJ-VerifyJWT">
+  <DisplayName>Verify Bearer JWT</DisplayName>
+  <Algorithm>RS256</Algorithm>
+  <Source>request.header.authorization</Source>
+  <!--
+    Public key is stored in the KVM 'jwt-config' under entry 'public-key'.
+    To rotate keys update the KVM — no proxy redeploy needed.
+  -->
+  <PublicKey>
+    <JWKS>
+      <Value ref="private.jwt_public_key"/>
+    </JWKS>
+  </PublicKey>
+  
+  <ExpiresIn>3600</ExpiresIn>
+  <!--
+    Add AdditionalClaims/Claim blocks to enforce custom claim values.
+    Example: <Claim name="aud" value="my-api-audience"/>
+  -->
+</VerifyJWT>

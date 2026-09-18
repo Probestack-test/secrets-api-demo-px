@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  KeyValueMapOperations – Fetch JWT Public Key
+  Reads the RSA public key from the KVM before JWT verification.
+  KVM name: jwt-config   entry: public-key
+-->
+<KeyValueMapOperations async="false" continueOnError="false" enabled="true"
+                       mapIdentifier="jwt-config" name="KV-GetJwtPublicKey">
+  <DisplayName>Get JWT Public Key from KVM</DisplayName>
+  <ExclusiveCache>false</ExclusiveCache>
+  <ExpiryTimeInSecs>300</ExpiryTimeInSecs>
+  <Get assignTo="private.jwt_public_key" index="1">
+    <Key>
+      <Parameter>public-key</Parameter>
+    </Key>
+  </Get>
+  <Scope>environment</Scope>
+</KeyValueMapOperations>
