@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  AssignMessage – Set JWT Context Headers
+  After successful JWT verification, propagates standard claims
+  as HTTP headers to the backend.
+-->
+<AssignMessage async="false" continueOnError="false" enabled="true"
+               name="AM-SetJwtContext">
+  <DisplayName>Set JWT Context Headers</DisplayName>
+  <AssignTo createNew="false" type="request"/>
+  <Set>
+    <Headers>
+      <Header name="X-JWT-Subject">{jwt.VJ-VerifyJWT.decoded.claim.sub}</Header>
+      <Header name="X-JWT-Email">{jwt.VJ-VerifyJWT.decoded.claim.email}</Header>
+      <Header name="X-Auth-Type">jwt</Header>
+    </Headers>
+  </Set>
+  <Remove>
+    <Headers>
+      <Header name="Authorization"/>
+    </Headers>
+  </Remove>
+</AssignMessage>
